@@ -6,7 +6,7 @@
 /*   By: junpark <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 14:51:28 by junpark           #+#    #+#             */
-/*   Updated: 2019/03/14 01:02:43 by junpark          ###   ########.fr       */
+/*   Updated: 2019/03/14 02:26:04 by junpark          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,16 @@ int	get_next_line(const int fd, char **line)
 		if(str[fd] == NULL)
 			str[fd] = ft_strnew(1);
 		temp = ft_strjoin(str[fd], buff);
+		free(str[fd]);
+		str[fd] = temp;
+		if (ft_strchr(buff, '\n'))
+			break;
 	}
+	if (readsize < 0)
+		return (-1);
+	else if (readsize == 0 && (str[fd] == NULL || str[fd][0] == NULL))
+		return (0);
+	return (check_new_line(fd, line, str));
 }
 
 int main(int argc, char **argv)
